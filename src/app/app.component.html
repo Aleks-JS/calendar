@@ -1,16 +1,18 @@
-<div>
-  <p>Static changes</p>
-  <span>
-    {{ heroName }}
-    {{ heroFromInput }}
-      <!-- Что мы тут делаем? -->
-    {{ heroSubject$ | async}}
-  </span>
-  <!-- Что мы тут делаем? -->
-  <button (click)="updateHeroName()">click me</button>
-  <input #input type="text">
+<select [formControl]="yearsControl">
+  <option *ngFor="let year of allYears" [value]="year">{{ year }}</option>
+</select>
 
-  <!-- Почему не меняется? -->
-  {{ heroTimer }}
+Мы выбрали год: {{ currentYear$ | async}}
+
+Мы выбрали день: {{ currentDay$ | async }}
+
+
+<button (click)="prevMonth()">Back</button>
+<button (click)="nextMonth()">Forward</button>
+
+<div class="calendar">
+  <div *ngFor="let day of dayInMonth$ | async" (click)="setDay(day)">
+    {{ day }}
+  </div>
 </div>
 
