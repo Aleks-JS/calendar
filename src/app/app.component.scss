@@ -1,8 +1,16 @@
-
+button {
+  margin: 10px;
+}
 .calendar {
+  max-width: 700px;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 2px;
   > div {
-    width: 100px;
-    height: 100px;
-
+    width: 97px;
+    height: 97px;
+    margin: 1px;
+    border: 1px solid black;
+    padding: auto;
   }
 }
