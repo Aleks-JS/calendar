@@ -25,7 +25,7 @@
 Мы выбрали день: {{ currentDay$ | async }}
 
 <div class="calendar">
-  <div *ngFor="let day of dayInMonth$ | async" (click)="setDay(day)">
+  <div *ngFor="let day of dayInMonth$ | async" (click)="setDay(day)" [class.there-is-an-event]="currentDay$.value === day">
     {{ day }}
   </div>
 </div>

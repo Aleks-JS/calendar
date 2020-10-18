@@ -1,24 +1,18 @@
 /* tslint:disable:radix */
 import {
   AfterContentChecked,
-  AfterContentInit,
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   DoCheck,
-  OnChanges,
   OnInit
 } from '@angular/core';
-import {FormControl, NgModel} from '@angular/forms';
-import {formatDate} from '@angular/common';
-import {empty, Subject, BehaviorSubject, Observable} from 'rxjs';
+import {FormControl} from '@angular/forms';
+import {Subject, BehaviorSubject, Observable} from 'rxjs';
 import {filter, map, combineLatest} from 'rxjs/operators';
+import { EventsService } from './events.service';
+import { Events } from './events';
 
 const currentDate = new Date();
-console.log(currentDate.toLocaleString('ru', {
-  month: 'long'
-}));
-
 const years = [];
 
 for (let index = 1970; index < 2030; index++) {
@@ -38,76 +32,88 @@ const months = [
   'июль', 'август', 'сентябрь',
   'октябрь', 'ноябрь', 'декабрь'
 ];
-
-type Event = {
-  id: string;
-  startDate: Date;
-  endDate: Date
-  text: string;
-};
+//
+// type Event = {
+//   id: string;
+//   startDate: Date;
+//   endDate: Date
+//   text: string;
+// };
 
 // Массив событий на 14 октября 2020 в разное время
 // доп задание: сделать сервис(для получение списка эвентов )
-const events: Array<Event> = [
-  {
-    id: "1",
-    startDate: new Date(1602644400000), // 5-7
-    endDate: new Date(1602651600000),
-    text: 'Выкинуть мусор'
-  },
-  {
-    id: "2",
-    startDate: new Date(1602676800000), // 14-15
-    endDate: new Date(1602680400000),
-    text: 'Посмотреть телевизор'
-  },
-  {
-    id: "3",
-    startDate: new Date(1602698400000), // 20-22
-    endDate: new Date(1602705600000),
-    text: 'Послушать подкаст'
-  }
-]
+// const events: Array<Event> = [
+//   {
+//     id: "1",
+//     startDate: new Date(1602644400000), // 5-7
+//     endDate: new Date(1602651600000),
+//     text: 'Выкинуть мусор'
+//   },
+//   {
+//     id: "2",
+//     startDate: new Date(1602676800000), // 14-15
+//     endDate: new Date(1602680400000),
+//     text: 'Посмотреть телевизор'
+//   },
+//   {
+//     id: "3",
+//     startDate: new Date(1602698400000), // 20-22
+//     endDate: new Date(1602705600000),
+//     text: 'Послушать подкаст'
+//   }
+// ]
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
+  providers: [EventsService],
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit, AfterContentChecked, DoCheck {
 
   allYears = years;
-
   allMonth = months;
-
-  today = new Date();
+  today = currentDate;
   currentYear: number = this.today.getFullYear();
   currentMonth: string = this.today.toLocaleString('ru', {
     month: 'long'
   });
+  sDay: string;
 
   yearsControl = new FormControl(this.currentYear);
   monthControl = new FormControl(this.currentMonth);
 
-  constructor() {
-    console.log(this.yearsControl.value, this.monthControl.value);
-  }
+  events: Events[] = [];
+
+  constructor(private eventsService: EventsService) {}
 
   ngOnInit() {
-    // this.yearsControl.valueChanges.subscribe(value => this.currentYear$.pipe());
+    this.events = this.eventsService.getData();
     this.yearsControl.valueChanges.subscribe(value => this.currentYear$.next(value));
     this.monthControl.valueChanges.subscribe(value => this.currentMonth$.next(value));
+    this.selectedDate$.subscribe(value => this.sDay = value.toDateString());
+    console.log(this.selectedDate$.value);
+    console.log(this.allMonth.indexOf(this.monthControl.value));
+    console.log(this.events);
   }
 
   ngDoCheck(): void {
   }
 
   ngAfterContentChecked(): void {
+    this.currentDay$.subscribe(value => this.selectedDate$.next(
+      new Date(this.currentYear$.value,
+        this.allMonth.indexOf(this.monthControl.value),
+        value)));
+    console.log(this.events.some(value =>
+      value.startDate.toDateString() === this.sDay));
   }
 
   currentYear$ = new BehaviorSubject(this.yearsControl.value);
-
+  currentMonth$ = new BehaviorSubject(this.monthControl.value);
+  currentDay$ = new BehaviorSubject(new Date().getDate());
+  selectedDate$ = new BehaviorSubject(this.today);
   // currentYear$: Observable<number> = this.yearsControl.valueChanges.pipe(
   //   filter((value) => parseInt(value).toString() == value),
   //   map((value) => parseInt(value))
@@ -117,9 +123,7 @@ export class AppComponent implements OnInit, AfterContentChecked, DoCheck {
   //   // filter((value) => value)
   // );
 
-  currentMonth$ = new BehaviorSubject(this.monthControl.value);
 
-  currentDay$ = new BehaviorSubject(new Date().getDate());
 
   // Сделать так чтобы при выборе месяца и года показывалось правильное число дней
   // Подсказка: смотри combineLatest
@@ -134,28 +138,27 @@ export class AppComponent implements OnInit, AfterContentChecked, DoCheck {
   //   })
   // );
 
-
   dayInMonth$ = this.currentMonth$.pipe(
     map((value) => {
+      // Определяем количество дней в месяца
       return Array(new Date(this.yearsControl.value,
         this.allMonth.indexOf(this.monthControl.value) + 1,
         0).getDate()).fill(0).map((_, index) => index + 1);
     })
   );
 
-  // tslint:disable-next-line:typedef
-  setTest() {
-    console.log('test');
-  }
-
   // Сделать список месяцев
   setDay(day: number) {
-    this.currentDay$.next(day)
+    this.currentDay$.next(day);
+  }
+
+  getSelectedDate(day: number) {
+
   }
 
   // Меняет на предыдущий месяц
   prevMonth() {
-    if (this.monthControl.value == this.allMonth[0]) {
+    if (this.monthControl.value === this.allMonth[0]) {
       this.monthControl.setValue(this.allMonth[this.allMonth.length - 1]);
       this.prevYear();
     } else {
@@ -166,12 +169,12 @@ export class AppComponent implements OnInit, AfterContentChecked, DoCheck {
 
   // Меняет на след месяц
   nextMonth() {
-    if (this.monthControl.value == this.allMonth[this.allMonth.length - 1]) {
+    if (this.monthControl.value === this.allMonth[this.allMonth.length - 1]) {
       this.monthControl.setValue(this.allMonth[0]);
       this.nextYear();
     } else {
       this.monthControl.setValue(this.allMonth
-          [this.allMonth.indexOf(this.monthControl.value) + 1]);
+        [this.allMonth.indexOf(this.monthControl.value) + 1]);
     }
   }
 
