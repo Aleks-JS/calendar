@@ -1,9 +1,6 @@
-export class Events {
-  constructor(
-    public id: string,
-    public startDate: Date,
-    public endDate: Date,
-    public text: string
-  ) {
-  }
+export interface Events {
+  id: string;
+  startDate: Date;
+  endDate: Date;
+  text: string;
 }

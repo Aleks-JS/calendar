@@ -1,5 +1,5 @@
 <select [formControl]="yearsControl">
-  <option *ngFor="let year of allYears" [value]="year">
+  <option *ngFor="let year of allYears" [ngValue]="year">
     {{ year }}
   </option>
 </select>
@@ -9,23 +9,25 @@
   <select [formControl]="monthControl">
     <option
       *ngFor="let month of allMonth; let i = index"
-      [ngValue]="month"
-      #month
+      [ngValue]="i"
     >
-      {{ month }}
+      {{ allMonth[i] }}
     </option>
   </select>
   <button (click)="nextMonth()">Forward</button>
 </div>
 
-Мы выбрали год: {{ currentYear$ | async }}
+Мы выбрали год: {{ yearsControl.value }}
 
-Мы выбрали месяц: {{ currentMonth$ | async }}
+Мы выбрали месяц: {{ allMonth[monthControl.value] }}
 
-Мы выбрали день: {{ currentDay$ | async }}
+Мы выбрали день: {{ selectedDate$ | async }}
 
 <div class="calendar">
-  <div *ngFor="let day of dayInMonth$ | async" (click)="setDay(day)" [class.there-is-an-event]="currentDay$.value === day">
-    {{ day }}
+  <div *ngFor="let day of dayInMonth$ | async; let i = index" (click)="setDay(i + 1)">
+    {{ i + 1 }}
+    <p (click)="remove(event.id)" *ngFor="let event of (events$ | async)[''+ (i + 1) + '.' + monthControl.value + '.' + yearsControl.value]">
+      {{ event.text }}
+    </p>
   </div>
 </div>
