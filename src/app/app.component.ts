@@ -1,3 +1,4 @@
+import { MatDialogModule } from '@angular/material';
 /* tslint:disable:radix */
 import {
   AfterContentChecked,
@@ -6,11 +7,12 @@ import {
   DoCheck,
   OnInit
 } from '@angular/core';
-import {FormControl} from '@angular/forms';
-import {Subject, BehaviorSubject, Observable, combineLatest} from 'rxjs';
-import {filter, map, shareReplay, startWith, switchMap, tap} from 'rxjs/operators';
+import { FormControl } from '@angular/forms';
+import { Subject, BehaviorSubject, Observable, combineLatest } from 'rxjs';
+import { filter, map, shareReplay, startWith, switchMap, tap } from 'rxjs/operators';
 import { EventsService } from './events.service';
 import { Events } from './events';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 const currentDate = new Date();
 const years = [];
@@ -76,7 +78,7 @@ export class AppComponent {
       return Array(dayMonth[month]).fill(true);
     }));
 
-  constructor(private eventsService: EventsService) {}
+  constructor(private eventsService: EventsService) { }
 
   remove(id: string) {
     console.log("remove" + id);
