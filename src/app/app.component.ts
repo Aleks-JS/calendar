@@ -6,9 +6,9 @@ import {
   DoCheck,
   OnInit
 } from '@angular/core';
-import {FormControl} from '@angular/forms';
-import {Subject, BehaviorSubject, Observable, combineLatest} from 'rxjs';
-import {filter, map, shareReplay, startWith, switchMap, tap} from 'rxjs/operators';
+import { FormControl } from '@angular/forms';
+import { Subject, BehaviorSubject, Observable, combineLatest } from 'rxjs';
+import { filter, map, shareReplay, startWith, switchMap, tap } from 'rxjs/operators';
 import { EventsService } from './events.service';
 import { Events } from './events';
 
@@ -55,7 +55,7 @@ export class AppComponent {
 
   yearsControl = new FormControl(this.currentYear);
   monthControl = new FormControl(this.currentMonth);
-  selectedDate$ = new BehaviorSubject(this.today.getDay());
+  selectedDate$ = new BehaviorSubject(this.today.getDate());
   refresh$ = new Subject();
 
   events$ = this.refresh$.pipe(
@@ -76,7 +76,7 @@ export class AppComponent {
       return Array(dayMonth[month]).fill(true);
     }));
 
-  constructor(private eventsService: EventsService) {}
+  constructor(private eventsService: EventsService) { }
 
   remove(id: string) {
     console.log("remove" + id);
