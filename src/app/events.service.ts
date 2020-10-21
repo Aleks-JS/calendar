@@ -1,6 +1,4 @@
 import { Events } from './events';
-import {of} from "rxjs";
-import {map} from "rxjs/operators";
 
 export class EventsService {
   private data: Events[] = [
@@ -21,28 +19,12 @@ export class EventsService {
       startDate: new Date(1602698400000), // 20-22
       endDate: new Date(1602705600000),
       text: 'Послушать подкаст'
-    },
-    {
-      id: '4',
-      startDate: new Date(1602522200000), // 20-22
-      endDate: new Date(1602758800000),
-      text: 'Послушать подкаст'
-    },
+    }
   ];
-  getData() {
-    return of(this.data).pipe(
-      map((val) => val.reduce((prev, current) => {
-        const key = `${current.startDate.getDate()}.${current.startDate.getMonth()}.${current.startDate.getFullYear()}`;
-        if (!prev[key]) {
-          prev[key] = [current];
-        } else {
-          prev[key].push(current);
-        }
-        return prev;
-      }, {}))
-    );
+  getData(): Events[] {
+    return this.data;
   }
-  removeData(id: string) {
-    this.data = this.data.filter(e => e.id !== id);
+  addData(id: string, startDate: Date, endDate: Date, text: string) {
+    this.data.push(new Events(id, startDate, endDate, text));
   }
 }
