@@ -24,7 +24,8 @@ import { DialogComponent } from './dialog/dialog.component';
     MaterialModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [DialogComponent]
 })
 export class AppModule {
 }
