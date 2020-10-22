@@ -1,20 +1,55 @@
-button {
-  margin: 10px;
-}
 .calendar {
-  max-width: 700px;
+  margin: 0 auto;
+  width: 850px;
   display: flex;
   flex-wrap: wrap;
   padding: 2px;
-  > div {
-    width: 97px;
-    height: 120px;
+  > .container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 0;
+    padding: 0.2rem;
+    width: 110px;
+    height: 130px;
     margin: 1px;
     border: 1px solid black;
   }
   > .there-is-an-event {
     border: 3px solid #3b91f8;
   }
+}
+
+.plus-event {
+  width: 2rem;
+  height: 2rem;
+  line-height: 10px;
+}
+
+.block-events{
+  width: 100%;
+  height: 80px;
+  font-size: 0.5rem;
+  > p {
+    margin: 0 0 0.2rem;
+    line-height: 0.8rem;
+    font-size: 0.7rem;
+  }
+}
+
+.block-events__buttons {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  height: 30px;
+}
+
+.block-events__buttons button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 28px;
+  height: 28px;
+  margin: 1px;
 }
 
 
