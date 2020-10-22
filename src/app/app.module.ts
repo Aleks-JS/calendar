@@ -8,12 +8,14 @@ import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
 import { DialogComponent } from './dialog/dialog.component';
+import { DialogFormsComponent } from './dialog/dialog-forms/dialog-forms.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    DialogComponent
+    DialogComponent,
+    DialogFormsComponent
   ],
   imports: [
     BrowserModule,
