@@ -35,21 +35,20 @@
     font-size: 0.7rem;
   }
 }
-
-.block-events__buttons {
+.mat-body-1 {
+  width: 80%;
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: end;
-  height: 30px;
-}
-
-.block-events__buttons button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 28px;
-  height: 28px;
-  margin: 1px;
+  > div {
+    margin: 5px;
+    padding: 5px;
+    border: #3b91f8 solid 1px;
+    border-radius: 3px;
+  }
+  > .block-events__buttons {
+    border: 0;
+  }
 }
 
 

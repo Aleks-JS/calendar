@@ -27,7 +27,7 @@ import { DialogFormsComponent } from './dialog/dialog-forms/dialog-forms.compone
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [DialogComponent]
+  entryComponents: [DialogComponent, DialogFormsComponent]
 })
 export class AppModule {
 }

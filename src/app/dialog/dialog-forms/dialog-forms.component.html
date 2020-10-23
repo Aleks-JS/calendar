@@ -1,1 +1,65 @@
-<p>dialog-forms works!</p>
+<h2 mat-dialog-title>Hello</h2>
+<mat-dialog-content>
+  <ul>
+    <li>
+      <fieldset>
+        <legend>Дата начала события</legend>
+        <mat-form-field appearance="fill">
+          <label for="start-event"></label>
+          <mat-label>Выберите дату</mat-label>
+          <input
+            matInput
+            class="input__start-event"
+            type="date"
+            value="2020-10-23"
+            [formControl]="startDate"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Введите время</mat-label>
+          <input
+            matInput
+            class="input__start-event"
+            type="time"
+            [formControl]="startTime"
+          />
+        </mat-form-field>
+      </fieldset>
+    </li>
+    <li>
+      <fieldset>
+        <legend>Дата окончания события</legend>
+        <mat-form-field appearance="fill">
+          <label for="start-event"></label>
+          <mat-label>Введите дату</mat-label>
+          <input
+            matInput
+            class="input__start-event"
+            type="date"
+            [formControl]="endDate"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Введите время</mat-label>
+          <input
+            matInput
+            class="input__start-event"
+            type="time"
+            [formControl]="endTime"
+          />
+        </mat-form-field>
+      </fieldset>
+    </li>
+    <li>
+      <mat-form-field appearance="fill">
+        <mat-label>Описание события</mat-label>
+        <textarea matInput [formControl]="eventDescription"></textarea>
+      </mat-form-field>
+    </li>
+  </ul>
+</mat-dialog-content>
+<div>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close="data">Submit</button>
+  </div>
+</div>
