@@ -1,4 +1,3 @@
-/* tslint:disable:radix */
 import {
   AfterContentChecked,
   ChangeDetectionStrategy, ChangeDetectorRef,
@@ -10,7 +9,7 @@ import { FormControl } from '@angular/forms';
 import { Subject, BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import { filter, map, shareReplay, startWith, switchMap, tap } from 'rxjs/operators';
 import { EventsService } from './events.service';
-import { Events } from './events';
+import { CreateRulesService } from './createRules.service'
 
 const currentDate = new Date();
 const years = [];
@@ -40,7 +39,7 @@ const dayMonth = [
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  providers: [EventsService],
+  providers: [EventsService, CreateRulesService],
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

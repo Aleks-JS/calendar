@@ -1,8 +1,9 @@
 import { Events } from './events';
-import {of} from "rxjs";
-import {map} from "rxjs/operators";
+import { of } from "rxjs";
+import { map } from "rxjs/operators";
 
 export class EventsService {
+  private id: number = 4;
   private data: Events[] = [
     {
       id: '1',
@@ -29,6 +30,11 @@ export class EventsService {
       text: 'Послушать подкаст'
     },
   ];
+
+  get() {
+    return this.data;
+  }
+
   getData() {
     return of(this.data).pipe(
       map((val) => val.reduce((prev, current) => {
@@ -42,7 +48,21 @@ export class EventsService {
       }, {}))
     );
   }
+
   removeData(id: string) {
     this.data = this.data.filter(e => e.id !== id);
+  }
+
+  incrementId() {
+    return ++this.id
+  }
+
+  setData(data) {
+    this.data.push({
+      id: this.incrementId().toString(),
+      startDate: new Date('' + data.startDate + 'T' + data.startTime + ':00'),
+      endDate: new Date('' + data.endDate + 'T' + data.endTime + ':00'),
+      text: data.eventDescription
+    })
   }
 }
