@@ -24,25 +24,27 @@
   </div>
 </div>
 <div class="calendar">
-  <div
+  <mat-card
     class="container"
     *ngFor="let day of dayInMonth$ | async; let i = index"
     (click)="setDay(i + 1)"
   >
-    <div>
-      {{ i + 1 }}
-    </div>
-    <div class="block-events">
-      <p
-        (click)="remove(event.id)"
-        *ngFor="
-          let event of (events$ | async)[
-            '' + (i + 1) + '.' + monthControl.value + '.' + yearsControl.value
-          ]
-        "
-      >
-        {{ event.text }}
-      </p>
-    </div>
-  </div>
+    <mat-card class="cover-empty">
+      <mat-card-header>
+        {{ i + 1 }}
+      </mat-card-header>
+      <mat-card-content class="block-events">
+        <p
+          (click)="remove(event.id)"
+          *ngFor="
+            let event of (events$ | async)[
+              '' + (i + 1) + '.' + monthControl.value + '.' + yearsControl.value
+            ]
+          "
+        >
+          {{ event.text }}
+        </p>
+      </mat-card-content>
+    </mat-card>
+  </mat-card>
 </div>

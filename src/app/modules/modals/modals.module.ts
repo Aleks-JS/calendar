@@ -1,4 +1,6 @@
 import { NgModule } from '@angular/core';
+import { DialogService } from './dialog/dialog.service';
+import { DialogFormsComponent } from './dialog/dialog-component/form.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
@@ -12,20 +14,23 @@ import { MatCardModule } from '@angular/material/card'
 
 
 const MaterialComponents = [
-  MatButtonModule,
-  MatButtonToggleModule,
-  MatIconModule,
-  MatListModule,
-  MatDividerModule,
-  MatSelectModule,
-  MatDialogModule,
-  MatFormFieldModule,
-  MatInputModule,
-  MatCardModule
+    MatButtonModule,
+    MatButtonToggleModule,
+    MatIconModule,
+    MatListModule,
+    MatDividerModule,
+    MatSelectModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCardModule
 ];
 
 @NgModule({
-  imports: [MaterialComponents],
-  exports: [MaterialComponents]
+    imports: [MaterialComponents],
+    exports: [],
+    providers: [DialogService],
+    declarations: [DialogFormsComponent],
+    entryComponents: [DialogFormsComponent]
 })
-export class MaterialModule { }
+export class ModalsModule { }

@@ -1,0 +1,67 @@
+<h2 mat-dialog-title>{{ description }}</h2>
+<mat-dialog-content [formGroup]="form" (submit)="$event.preventDefault()">
+  <ul>
+    <li>
+      <fieldset>
+        <legend>Дата начала события</legend>
+        <mat-form-field appearance="fill">
+          <label for="start-event"></label>
+          <mat-label>Выберите дату</mat-label>
+          <input
+            matInput
+            class="input__start-event"
+            type="date"
+            value="2020-10-23"
+            formControlName="startDate"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Введите время</mat-label>
+          <input
+            matInput
+            class="input__start-event"
+            type="time"
+            formControlName="startTime"
+          />
+        </mat-form-field>
+      </fieldset>
+    </li>
+    <li>
+      <fieldset>
+        <legend>Дата окончания события</legend>
+        <mat-form-field appearance="fill">
+          <label for="start-event"></label>
+          <mat-label>Введите дату</mat-label>
+          <input
+            matInput
+            class="input__start-event"
+            type="date"
+            formControlName="endDate"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Введите время</mat-label>
+          <input
+            matInput
+            class="input__start-event"
+            type="time"
+            formControlName="endTime"
+          />
+        </mat-form-field>
+      </fieldset>
+    </li>
+    <li>
+      <mat-form-field appearance="fill">
+        <mat-label>Описание события</mat-label>
+        <textarea matInput formControlName="eventDescription"></textarea>
+      </mat-form-field>
+    </li>
+  </ul>
+</mat-dialog-content>
+<div>
+  <div mat-dialog-actions>
+    <button class="mat-raised-button" (click)="close()">Close</button>
+    <button mat-button mat-dialog-close (click)="save()">Submit</button>
+  </div>
+</div>
+<div>{{ form.value | json }}</div>

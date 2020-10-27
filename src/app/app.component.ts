@@ -77,12 +77,16 @@ export class AppComponent {
 
   constructor(private eventsService: EventsService) { }
 
+  add(data) {
+    this.eventsService.setData(data);
+  }
+
   remove(id: string) {
     console.log("remove" + id);
     this.eventsService.removeData(id);
     this.refresh$.next();
   }
-  // Меняет на предыдущий месяц
+
   setDay(i) {
     this.selectedDate$.next(i);
   }

@@ -9,7 +9,7 @@ import {
 import { Component, Inject, OnInit } from '@angular/core';
 
 const nowDate = new Date();
-const dat30MinutesHead = new Date(
+const nowDateAfter = new Date(
   new Date().setMinutes(new Date().getMinutes() + 30)
 );
 
@@ -26,21 +26,17 @@ const currentTime =
   ('0' + nowDate.getMinutes()).slice(-2);
 
 const currentDateEnd =
-  dat30MinutesHead.getFullYear() +
+  nowDateAfter.getFullYear() +
   '-' +
-  ('0' + (dat30MinutesHead.getMonth() + 1)).slice(-2) +
+  ('0' + (nowDateAfter.getMonth() + 1)).slice(-2) +
   '-' +
-  ('0' + dat30MinutesHead.getDate()).slice(-2);
+  ('0' + nowDateAfter.getDate()).slice(-2);
 
 const currentTimeEnd =
-  ('0' + dat30MinutesHead.getHours()).slice(-2) +
+  ('0' + nowDateAfter.getHours()).slice(-2) +
   ':' +
-  ('0' + dat30MinutesHead.getMinutes()).slice(-2);
+  ('0' + nowDateAfter.getMinutes()).slice(-2);
 
-// export interface DialogData {
-//   startDate: string;
-//   endDate: string;
-// }
 
 @Component({
   selector: 'app-dialog-forms',
@@ -82,10 +78,4 @@ export class DialogFormsComponent implements OnInit {
     this.dialogRef.close(this.form.value);
   }
 
-  // onSubmit() {
-  //   const controls = this.form.controls;
-  //
-  //   /** TODO: Обработка данных формы */
-  //   console.log(this.form.value);
-  // }
 }

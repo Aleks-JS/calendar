@@ -1,6 +1,4 @@
-import { map } from 'rxjs/operators';
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { Component } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { DialogFormsComponent } from '../dialog/dialog-forms/dialog-forms.component'
 import { EventsService } from '../events.service';
@@ -11,8 +9,7 @@ import { EventsService } from '../events.service';
   styleUrls: ['./dialog.component.scss']
 })
 
-export class DialogComponent implements OnInit {
-  startDate: any;
+export class DialogComponent {
 
   constructor(public dialog: MatDialog, private eventsService: EventsService) { }
 
@@ -28,13 +25,7 @@ export class DialogComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       this.eventsService.setData(result);
-      console.log(this.eventsService.get());
-
-      console.log(result);
     });
-  }
-
-  ngOnInit(): void {
   }
 
 }

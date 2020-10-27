@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
 import { DialogComponent } from './dialog/dialog.component';
 import { DialogFormsComponent } from './dialog/dialog-forms/dialog-forms.component';
+//import { ModalsModule } from './modules/modals/modals.module';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { DialogFormsComponent } from './dialog/dialog-forms/dialog-forms.compone
     AppRoutingModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
+    //ModalsModule
   ],
   providers: [],
   bootstrap: [AppComponent],
