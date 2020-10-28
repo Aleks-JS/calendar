@@ -1,5 +1,5 @@
-export interface Events {
-  id: string;
+export interface Event {
+  id?: string;
   startDate: Date;
   endDate: Date;
   text: string;

@@ -19,9 +19,7 @@
   <div>Мы выбрали месяц: {{ allMonth[monthControl.value] }}</div>
 
   <div>Мы выбрали день: {{ selectedDate$ | async }}</div>
-  <div class="block-events__buttons">
-    <app-dialog></app-dialog>
-  </div>
+  <div class="block-events__buttons" (click)="open()">click</div>
 </div>
 <div class="calendar">
   <mat-card

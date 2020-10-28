@@ -1,3 +1,4 @@
+import { DialogService } from './modules/modals/dialog/dialog.service';
 import {
   AfterContentChecked,
   ChangeDetectionStrategy, ChangeDetectorRef,
@@ -8,8 +9,7 @@ import {
 import { FormControl } from '@angular/forms';
 import { Subject, BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import { filter, map, shareReplay, startWith, switchMap, tap } from 'rxjs/operators';
-import { EventsService } from './events.service';
-import { CreateRulesService } from './createRules.service'
+import { EventsService } from './services/events.service';
 
 const currentDate = new Date();
 const years = [];
@@ -39,7 +39,7 @@ const dayMonth = [
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  providers: [EventsService, CreateRulesService],
+  providers: [],
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -59,8 +59,7 @@ export class AppComponent {
 
   events$ = this.refresh$.pipe(
     startWith(true),
-    switchMap(() => this.eventsService.getData()),
-    tap(console.log)
+    switchMap(() => this.eventsService.getData())
   );
 
   dayInMonth$ = combineLatest(this.yearsControl.valueChanges, this.monthControl.valueChanges).pipe(
@@ -75,11 +74,11 @@ export class AppComponent {
       return Array(dayMonth[month]).fill(true);
     }));
 
-  constructor(private eventsService: EventsService) { }
+  constructor(
+    private eventsService: EventsService,
+    private dialogService: DialogService
+  ) { }
 
-  add(data) {
-    this.eventsService.setData(data);
-  }
 
   remove(id: string) {
     console.log("remove" + id);
@@ -117,5 +116,11 @@ export class AppComponent {
 
   nextYear() {
     this.yearsControl.setValue(this.yearsControl.value + 1);
+  }
+
+  open() {
+    this.dialogService.open().subscribe(() => {
+      this.refresh$.next()
+    })
   }
 }

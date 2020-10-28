@@ -1,5 +1,5 @@
-//import { CreateRulesService } from './../../createRules.service';
-import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { EventsService } from '@services/events.service';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import {
     MAT_DIALOG_DATA,
     MatDialog,
@@ -40,42 +40,43 @@ const currentTimeEnd =
 
 @Component({
     selector: 'app-dialog-forms',
-    templateUrl: './dialog-forms.component.html',
-    styleUrls: ['./dialog-forms.component.scss']
+    templateUrl: './form.component.html',
+    styleUrls: ['./form.component.scss']
 })
-export class DialogFormsComponent implements OnInit {
-    form: FormGroup;
-    description: string;
+export class DialogFormsComponent {
 
-    startDate = new FormControl(currentDate);
-    startTime = new FormControl(currentTime);
-    endDate = new FormControl(currentDateEnd);
-    endTime = new FormControl(currentTimeEnd);
-    eventDescription = new FormControl();
+    form = this.fb.group({
+        startDate: [currentDate],
+        startTime: [currentTime],
+        endDate: [currentDateEnd],
+        endTime: [currentTimeEnd],
+        eventDescription: ['', Validators.required],
+    });
 
     constructor(
         private fb: FormBuilder,
         private dialogRef: MatDialogRef<DialogFormsComponent>,
+        private eventsServise: EventsService,
         @Inject(MAT_DIALOG_DATA) public data
     ) { }
-
-    ngOnInit(): void {
-        this.form = this.fb.group({
-            description: [this.description],
-            startDate: [this.startDate.value],
-            startTime: [this.startTime.value],
-            endDate: [this.endDate.value],
-            endTime: [this.endTime.value],
-            eventDescription: [this.eventDescription.value],
-        });
-    }
 
     close() {
         this.dialogRef.close();
     }
 
     save() {
-        this.dialogRef.close(this.form.value);
+        console.log(this.form.valid);
+        if (!this.form.valid) {
+            console.log(this.form.valid);
+
+            return
+        }
+        this.eventsServise.addData({
+            startDate: new Date('' + this.form.value.startDate + 'T' + this.form.value.startTime + ':00'),
+            endDate: new Date('' + this.form.value.endDate + 'T' + this.form.value.endTime + ':00'),
+            text: this.form.value.eventDescription
+        });
+        this.close();
     }
 
 }

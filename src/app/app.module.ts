@@ -6,17 +6,13 @@ import { AppComponent } from './app.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule } from './material/material.module';
-import { DialogComponent } from './dialog/dialog.component';
-import { DialogFormsComponent } from './dialog/dialog-forms/dialog-forms.component';
-//import { ModalsModule } from './modules/modals/modals.module';
+import { MaterialModule } from './modules/material/material.module';
+import { ModalsModule } from './modules/modals/modals.module';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    DialogComponent,
-    DialogFormsComponent
   ],
   imports: [
     BrowserModule,
@@ -25,11 +21,11 @@ import { DialogFormsComponent } from './dialog/dialog-forms/dialog-forms.compone
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MaterialModule,
-    //ModalsModule
+    ModalsModule
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [DialogComponent, DialogFormsComponent]
+  entryComponents: []
 })
 export class AppModule {
 }

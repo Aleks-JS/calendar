@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { DialogService } from './dialog/dialog.service';
@@ -29,7 +30,7 @@ const MaterialComponents = [
 ];
 
 @NgModule({
-    imports: [MaterialComponents, ReactiveFormsModule],
+    imports: [MaterialComponents, ReactiveFormsModule, CommonModule],
     exports: [],
     providers: [DialogService],
     declarations: [DialogFormsComponent],
