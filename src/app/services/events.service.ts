@@ -36,7 +36,7 @@ export class EventsService {
 
   draft$ = new BehaviorSubject([])
 
-  draftObs = this.draft$.asObservable()
+  draftObs$ = this.draft$.asObservable()
 
   data$ = new BehaviorSubject(this.data)
 
@@ -68,7 +68,7 @@ export class EventsService {
   }
 
   getDrafts() {
-    return this.draftObs
+    return this.draftObs$
   }
 
   appDrafts(draft) {

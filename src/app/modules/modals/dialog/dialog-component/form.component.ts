@@ -64,6 +64,7 @@ export class DialogFormsComponent implements OnInit {
         this.form.patchValue(this.data)
     }
 
+
     close() {
         if (this.form.valid) {
             this.eventsServise.appDrafts(this.form.value)
@@ -73,8 +74,6 @@ export class DialogFormsComponent implements OnInit {
 
     save() {
         if (!this.form.valid) {
-            console.log(this.form.valid);
-
             return
         }
 
@@ -84,7 +83,7 @@ export class DialogFormsComponent implements OnInit {
             text: this.form.value.eventDescription
         });
 
-        this.close();
+        this.dialogRef.close();
     }
 
 }
