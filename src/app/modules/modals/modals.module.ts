@@ -1,3 +1,4 @@
+import { ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { DialogService } from './dialog/dialog.service';
 import { DialogFormsComponent } from './dialog/dialog-component/form.component';
@@ -10,7 +11,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatCardModule } from '@angular/material/card'
+import { MatCardModule } from '@angular/material/card';
+
 
 
 const MaterialComponents = [
@@ -27,7 +29,7 @@ const MaterialComponents = [
 ];
 
 @NgModule({
-    imports: [MaterialComponents],
+    imports: [MaterialComponents, ReactiveFormsModule],
     exports: [],
     providers: [DialogService],
     declarations: [DialogFormsComponent],

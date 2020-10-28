@@ -3,7 +3,6 @@ import { of } from "rxjs";
 import { map } from "rxjs/operators";
 
 export class EventsService {
-  private id: number = 4;
   private data: Events[] = [
     {
       id: '1',
@@ -53,13 +52,9 @@ export class EventsService {
     this.data = this.data.filter(e => e.id !== id);
   }
 
-  incrementId() {
-    return ++this.id
-  }
-
   setData(data) {
     this.data.push({
-      id: this.incrementId().toString(),
+      id: this.data.length.toString(),
       startDate: new Date('' + data.startDate + 'T' + data.startTime + ':00'),
       endDate: new Date('' + data.endDate + 'T' + data.endTime + ':00'),
       text: data.eventDescription
