@@ -43,7 +43,7 @@ const currentTimeEnd =
     templateUrl: './form.component.html',
     styleUrls: ['./form.component.scss']
 })
-export class DialogFormsComponent {
+export class DialogFormsComponent implements OnInit {
 
     form = this.fb.group({
         startDate: [currentDate],
@@ -60,22 +60,30 @@ export class DialogFormsComponent {
         @Inject(MAT_DIALOG_DATA) public data
     ) { }
 
+    ngOnInit(): void {
+        this.form.patchValue(this.data)
+    }
+
     close() {
+        if (this.form.valid) {
+            this.eventsServise.appDrafts(this.form.value)
+        }
         this.dialogRef.close();
     }
 
     save() {
-        console.log(this.form.valid);
         if (!this.form.valid) {
             console.log(this.form.valid);
 
             return
         }
+
         this.eventsServise.addData({
             startDate: new Date('' + this.form.value.startDate + 'T' + this.form.value.startTime + ':00'),
             endDate: new Date('' + this.form.value.endDate + 'T' + this.form.value.endTime + ':00'),
             text: this.form.value.eventDescription
         });
+
         this.close();
     }
 

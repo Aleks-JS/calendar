@@ -45,4 +45,10 @@
       </mat-card-content>
     </mat-card>
   </mat-card>
+  <div
+    *ngFor="let event of draftEvents$ | async; let i = index"
+    (click)="open(event)"
+  >
+    {{ event | json }}
+  </div>
 </div>

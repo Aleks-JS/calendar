@@ -5,7 +5,7 @@ import { DialogFormsComponent } from './dialog-component/form.component';
 @Injectable()
 export class DialogService {
     constructor(private dialog: MatDialog) { }
-    open() {
-        return this.dialog.open(DialogFormsComponent).afterClosed();
+    open(data) {
+        return this.dialog.open(DialogFormsComponent, { data }).afterClosed();
     }
 }

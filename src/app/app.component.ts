@@ -57,6 +57,8 @@ export class AppComponent {
   selectedDate$ = new BehaviorSubject(this.today.getDate());
   refresh$ = new Subject();
 
+  draftEvents$ = this.eventsService.getDrafts();
+
   events$ = this.refresh$.pipe(
     startWith(true),
     switchMap(() => this.eventsService.getData())
@@ -118,8 +120,8 @@ export class AppComponent {
     this.yearsControl.setValue(this.yearsControl.value + 1);
   }
 
-  open() {
-    this.dialogService.open().subscribe(() => {
+  open(data = {}) {
+    this.dialogService.open(data).subscribe(() => {
       this.refresh$.next()
     })
   }

@@ -34,6 +34,10 @@ export class EventsService {
     },
   ];
 
+  draft$ = new BehaviorSubject([])
+
+  draftObs = this.draft$.asObservable()
+
   data$ = new BehaviorSubject(this.data)
 
   obsData$ = this.data$.asObservable().pipe(
@@ -62,4 +66,13 @@ export class EventsService {
     { ...event, id: `${this.data$.value.length + 1}` }
     ])
   }
+
+  getDrafts() {
+    return this.draftObs
+  }
+
+  appDrafts(draft) {
+    this.draft$.next([...this.draft$.value, draft])
+  }
+
 }
