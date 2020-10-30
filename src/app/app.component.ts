@@ -64,7 +64,14 @@ export class AppComponent {
     switchMap(() => this.eventsService.getData())
   );
 
-  dayInMonth$ = combineLatest([this.yearsControl.valueChanges, this.monthControl.valueChanges]).pipe(
+  dayInMonth$ = combineLatest([
+    this.yearsControl.valueChanges.pipe(
+      startWith(this.currentYear),
+    ),
+    this.monthControl.valueChanges.pipe(
+      startWith(this.currentMonth)
+    )
+  ]).pipe(
     startWith([this.currentYear, this.currentMonth]),
     map(([year, month]) => {
       if (year % 4 !== 0) {
@@ -98,7 +105,6 @@ export class AppComponent {
       this.prevYear();
     } else {
       this.monthControl.setValue(this.monthControl.value - 1);
-      this.yearsControl.setValue(this.yearsControl.value);
     }
   }
 
@@ -109,7 +115,6 @@ export class AppComponent {
       this.nextYear();
     } else {
       this.monthControl.setValue(this.monthControl.value + 1);
-      this.yearsControl.setValue(this.yearsControl.value);
     }
   }
 
