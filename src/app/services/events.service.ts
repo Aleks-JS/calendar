@@ -28,8 +28,8 @@ export class EventsService {
     },
     {
       id: '4',
-      startDate: new Date(1602522200000), // 20-22
-      endDate: new Date(1602758800000),
+      startDate: new Date(1606522200000), // 20-22
+      endDate: new Date(1606758800000),
       text: 'Послушать подкаст'
     },
   ];
