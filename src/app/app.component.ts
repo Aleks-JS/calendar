@@ -12,6 +12,7 @@ import { filter, map, shareReplay, startWith, switchMap, tap } from 'rxjs/operat
 import { EventsService } from './services/events.service';
 
 const currentDate = new Date();
+console.log(currentDate.getDay())
 const years = [];
 
 for (let index = 1970; index < 2030; index++) {
@@ -26,11 +27,13 @@ for (let index = 1970; index < 2030; index++) {
 // ];
 
 const months = [
-  'январь', 'февраль', 'март',
-  'апрель', 'май', 'июнь',
-  'июль', 'август', 'сентябрь',
-  'октябрь', 'ноябрь', 'декабрь'
+  ['январь', 'января'], ['февраль', 'февраля'], ['март', 'марта'],
+  ['апрель', 'апреля'], ['май', 'мая'], ['июнь', 'июня'],
+  ['июль', 'июля'], ['август', 'августа'], ['сентябрь', 'сентября'],
+  ['октябрь', 'октября'], ['ноябрь', 'ноября'], ['декабрь', 'декабря']
 ];
+
+const daysOfTheWeek = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
 
 const dayMonth = [
   31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
@@ -45,9 +48,12 @@ const dayMonth = [
 })
 export class AppComponent {
 
+  dayInMonth = dayMonth;
   allYears = years;
   allMonth = months;
+  allDays = daysOfTheWeek;
   today = currentDate;
+  currentDayOfTheWeek = this.today.getDay();
   currentYear: number = this.today.getFullYear();
   currentMonth: number = this.today.getMonth();
   sDay: string;
@@ -61,7 +67,8 @@ export class AppComponent {
 
   events$ = this.refresh$.pipe(
     startWith(true),
-    switchMap(() => this.eventsService.getData())
+    switchMap(() => this.eventsService.getData()),
+    tap(console.log)
   );
 
   dayInMonth$ = combineLatest([
@@ -74,14 +81,16 @@ export class AppComponent {
   ]).pipe(
     startWith([this.currentYear, this.currentMonth]),
     map(([year, month]) => {
+      const days = this.getBeginningDayOfMonth(year, month) + ((7 - (dayMonth[month] + this.getBeginningDayOfMonth(year, month)) % 7))
       if (year % 4 !== 0) {
-        return Array(dayMonth[month]).fill(true);
+        return Array(dayMonth[month] + days).fill(true);
       }
       if (month === 1) {
-        return Array(29).fill(true);
+        return Array(29 + days).fill(true);
       }
-      return Array(dayMonth[month]).fill(true);
-    }));
+      return Array(dayMonth[month] + days).fill(true);
+    })
+  );
 
   constructor(
     private eventsService: EventsService,
@@ -131,5 +140,12 @@ export class AppComponent {
     this.dialogService.open(data).subscribe(() => {
       this.refresh$.next()
     })
+  }
+
+  getBeginningDayOfMonth(year, month) {
+    if (new Date(`${year}-${month + 1}-1`).getDay() === 0) {
+      return 6
+    };
+    return new Date(`${year}-${month + 1}-1`).getDay() - 1;
   }
 }

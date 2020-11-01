@@ -1,23 +1,55 @@
-.calendar {
-  margin: 0 auto;
-  width: 850px;
+main {
   display: flex;
-  flex-wrap: wrap;
-  padding: 2px;
-  > .container {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 0;
-    padding: 0.2rem;
-    width: 110px;
-    height: 130px;
-    margin: 1px;
-    border: 1px solid black;
-  }
-  > .there-is-an-event {
-    border: 3px solid #3b91f8;
-  }
 }
+
+.container {
+  padding: 10px 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.wrapper {
+  width: 100%;
+  
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.header-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.calendar {
+  border-collapse: collapse;
+}
+
+.day-calendar {
+  margin: 0;
+  box-sizing: content-box;
+  border: 1px solid rgba(152, 12, 195, 0.541);
+  background-clip: padding-box;
+  padding: 0;
+}
+
+.left__main-block {
+  width: 100%;
+}
+
+.right__main-block {
+  width: 400px;
+  border-left: 1px solid gray;
+}
+
+.title-date::first-letter {
+  text-transform: uppercase;
+}
+
+// .day-calendar + .day-calendar {
+//   margin: -1px 0
+// }
 
 .plus-event {
   width: 2rem;

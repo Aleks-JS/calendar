@@ -1,57 +1,148 @@
-<mat-toolbar color="primary">
-  <span>FirstRow</span>
-</mat-toolbar>
-<select [formControl]="yearsControl">
-  <option *ngFor="let year of allYears" [ngValue]="year">
-    {{ year }}
-  </option>
-</select>
+<div class="wrapper">
+  <header>
+    <mat-toolbar color="primary">
+      <div class="header-container">
+        <div>Календарь</div>
+        <span>
+          <select [formControl]="yearsControl">
+            <option *ngFor="let year of allYears" [ngValue]="year">
+              {{ year }}
+            </option>
+          </select>
 
-<div class="month">
-  <button mat-raised-button (click)="prevMonth()">Back</button>
-  <select [formControl]="monthControl">
-    <option *ngFor="let month of allMonth; let i = index" [ngValue]="i">
-      {{ allMonth[i] }}
-    </option>
-  </select>
-  <button mat-raised-button (click)="nextMonth()">Forward</button>
-</div>
-<div class="mat-body-1">
-  <div>Мы выбрали год: {{ yearsControl.value }}</div>
+          <button mat-raised-button (click)="prevMonth()">Back</button>
+          <select [formControl]="monthControl">
+            <option *ngFor="let month of allMonth; let i = index" [ngValue]="i">
+              {{ allMonth[i][0] }}
+            </option>
+          </select>
+          <button mat-raised-button (click)="nextMonth()">Forward</button>
+        </span>
+        <!-- <div class="mat-body-1">
+          <div>Мы выбрали год: {{ yearsControl.value }}</div>
 
-  <div>Мы выбрали месяц: {{ allMonth[monthControl.value] }}</div>
+          <div>Мы выбрали месяц: {{ allMonth[monthControl.value][0] }}</div>
 
-  <div>Мы выбрали день: {{ selectedDate$ | async }}</div>
-  <div class="block-events__buttons" (click)="open()">click</div>
-</div>
-<div class="calendar">
-  <mat-card
-    class="container"
-    *ngFor="let day of dayInMonth$ | async; let i = index"
-    (click)="setDay(i + 1)"
-  >
-    <mat-card class="cover-empty">
-      <mat-card-header>
-        {{ i + 1 }}
-      </mat-card-header>
-      <mat-card-content class="block-events">
-        <p
-          (click)="remove(event.id)"
-          *ngFor="
-            let event of (events$ | async)[
-              '' + (i + 1) + '.' + monthControl.value + '.' + yearsControl.value
-            ]
-          "
+          <div>Мы выбрали день: {{ selectedDate$ | async }}</div>
+        </div> -->
+        <span class="title-date"
+          >{{ allMonth[monthControl.value][0] }} {{ yearsControl.value }}</span
         >
-          {{ event.text }}
-        </p>
-      </mat-card-content>
-    </mat-card>
-  </mat-card>
-  <div
-    *ngFor="let event of draftEvents$ | async; let i = index"
-    (click)="open(event)"
-  >
-    {{ event | json }}
-  </div>
+        <button
+          mat-raised-button
+          color="accent"
+          class="block-events__buttons"
+          (click)="open()"
+        >
+          Добавить событие
+        </button>
+      </div>
+    </mat-toolbar>
+  </header>
+
+  <main>
+    <div class="left__main-block">
+      <div class="container">
+        <mat-grid-list cols="7" rows="1" rowHeight="30px">
+          <mat-grid-tile
+            *ngFor="let day of allDays; let i = index"
+            [ngValue]="i"
+            >{{ day }}</mat-grid-tile
+          >
+        </mat-grid-list>
+        <mat-grid-list class="calendar" cols="7" rows="6" rowHeight="120px">
+          <mat-grid-tile
+            *ngFor="let day of dayInMonth$ | async; let i = index"
+            (click)="
+              setDay(
+                i +
+                  1 -
+                  getBeginningDayOfMonth(yearsControl.value, monthControl.value)
+              )
+            "
+            class="day-calendar"
+            [ngValue]="i"
+          >
+            <div class="cover-empty">
+              <div
+                *ngIf="
+                  i >
+                  dayInMonth[monthControl.value] +
+                    getBeginningDayOfMonth(
+                      yearsControl.value,
+                      monthControl.value
+                    ) -
+                    1
+                "
+              ></div>
+              <div
+                *ngIf="
+                  getBeginningDayOfMonth(
+                    yearsControl.value,
+                    monthControl.value
+                  ) > i
+                "
+              ></div>
+              <div
+                *ngIf="
+                  getBeginningDayOfMonth(
+                    yearsControl.value,
+                    monthControl.value
+                  ) <= i &&
+                  i <
+                    dayInMonth[monthControl.value] +
+                      getBeginningDayOfMonth(
+                        yearsControl.value,
+                        monthControl.value
+                      )
+                "
+              >
+                {{
+                  i +
+                    1 -
+                    getBeginningDayOfMonth(
+                      yearsControl.value,
+                      monthControl.value
+                    )
+                }}
+                {{ allMonth[monthControl.value][1] }}
+              </div>
+              <div class="block-events">
+                <p
+                  (click)="remove(event.id)"
+                  *ngFor="
+                    let event of (events$ | async)[
+                      '' +
+                        (i +
+                          1 -
+                          getBeginningDayOfMonth(
+                            yearsControl.value,
+                            monthControl.value
+                          )) +
+                        '.' +
+                        monthControl.value +
+                        '.' +
+                        yearsControl.value
+                    ]
+                  "
+                >
+                  {{ event.text }}
+                </p>
+              </div>
+            </div>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </div>
+    </div>
+    <div class="right__main-block">
+      <div class="container">
+        <div
+          *ngFor="let event of draftEvents$ | async; let i = index"
+          (click)="open(event)"
+        >
+          {{ event | json }}
+        </div>
+      </div>
+    </div>
+  </main>
 </div>
