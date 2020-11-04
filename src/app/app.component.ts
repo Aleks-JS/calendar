@@ -1,4 +1,3 @@
-import { DialogService } from './modules/modals/dialog/dialog.service';
 import {
   AfterContentChecked,
   ChangeDetectionStrategy, ChangeDetectorRef,
@@ -10,6 +9,7 @@ import { FormControl } from '@angular/forms';
 import { Subject, BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import { filter, map, shareReplay, startWith, switchMap, tap } from 'rxjs/operators';
 import { EventsService } from './services/events.service';
+import { DialogService } from './modules/modals/dialog/dialog.service';
 
 const currentDate = new Date();
 console.log(currentDate.getDay())

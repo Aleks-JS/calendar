@@ -11,10 +11,11 @@ app-root {
     justify-content: space-between;
     align-items: center;
     margin: 0 auto;
+    height: 100vh;
 }
 
 body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
-    height: 100vh;
+    height: 100%;
 }

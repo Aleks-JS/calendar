@@ -1,6 +1,6 @@
 <header>
-  <mat-toolbar color="primary">
-    <div class="header-container flex-row-container">
+  <div class="header-container flex-row-container">
+    <mat-toolbar color="primary">
       <div class="mat-title header__title">Календарь</div>
       <div class="select-container">
         <div>
@@ -11,7 +11,7 @@
           </select>
         </div>
         <div>
-          <button mat-raised-button (click)="prevMonth()">+</button>
+          <button mat-raised-button (click)="prevMonth()">-</button>
         </div>
         <div>
           <select [formControl]="monthControl">
@@ -21,7 +21,7 @@
           </select>
         </div>
         <div>
-          <button mat-raised-button (click)="nextMonth()">-</button>
+          <button mat-raised-button (click)="nextMonth()">+</button>
         </div>
       </div>
       <!-- <div class="mat-body-1">
@@ -42,8 +42,8 @@
       >
         Добавить событие
       </button>
-    </div>
-  </mat-toolbar>
+    </mat-toolbar>
+  </div>
 </header>
 
 <main>
@@ -104,8 +104,8 @@
                         monthControl.value
                       )
                 "
-                ><h2
-                  class="mat-h2"
+                ><h3
+                  class="mat-h3"
                   [title]="
                     i +
                     1 -
@@ -128,7 +128,7 @@
                         monthControl.value
                       )
                   }}
-                </h2>
+                </h3>
               </span>
             </div>
             <div class="calendar__card-events">
@@ -162,12 +162,29 @@
     </div>
   </div>
   <div class="right__main-block">
-    <div
-      *ngFor="let event of draftEvents$ | async; let i = index"
-      (click)="open(event)"
-      (click)="remove(event.id)"
-    >
-      {{ event | json }}
+    <div class="flex-column-container">
+      <div class="mini-calendar"></div>
+      <div class="draft__events-wrapper">
+        <div
+          class="draft__events"
+          *ngFor="let event of draftEvents$ | async; let i = index"
+          (click)="open(event)"
+          (click)="remove(event.id)"
+        >
+          Вы забыли сохранить:
+          <h4 class="mat-body-1"></h4>
+          <p class="draft__events-text">
+            {{ i + 1 }}.{{ event.eventDescription
+            }}<mat-icon
+              (click)="remove(event.id)"
+              color="primary"
+              aria-hidden="false"
+              aria-label="delete icon"
+              >delete_forever</mat-icon
+            >
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 </main>
