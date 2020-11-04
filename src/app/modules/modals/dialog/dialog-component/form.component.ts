@@ -67,7 +67,7 @@ export class DialogFormsComponent implements OnInit {
 
     close() {
         if (this.form.valid) {
-            this.eventsServise.appDrafts(this.form.value)
+            this.eventsServise.addDrafts(this.form.value)
         }
         this.dialogRef.close();
     }

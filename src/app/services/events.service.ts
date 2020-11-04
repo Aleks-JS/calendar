@@ -34,10 +34,6 @@ export class EventsService {
     },
   ];
 
-  draft$ = new BehaviorSubject([])
-
-  draftObs$ = this.draft$.asObservable()
-
   data$ = new BehaviorSubject(this.data)
 
   obsData$ = this.data$.asObservable().pipe(
@@ -51,6 +47,10 @@ export class EventsService {
       return prev;
     }, {}))
   );
+
+  draft$ = new BehaviorSubject([])
+
+  draftObs$ = this.draft$.asObservable()
 
   getData() {
     return (this.obsData$)
@@ -71,8 +71,12 @@ export class EventsService {
     return this.draftObs$
   }
 
-  appDrafts(draft) {
-    this.draft$.next([...this.draft$.value, draft])
+  addDrafts(draft) {
+    this.draft$.next([...this.draft$.value, { ...draft, id: `${this.draft$.value.length + 1}` }])
+  }
+
+  removeDrafts(id: string) {
+    this.draft$.next(this.draft$.value.filter(e => e.id !== id))
   }
 
 }

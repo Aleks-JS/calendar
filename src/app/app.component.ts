@@ -101,6 +101,7 @@ export class AppComponent {
   remove(id: string) {
     console.log("remove" + id);
     this.eventsService.removeData(id);
+    this.eventsService.removeDrafts(id);
     this.refresh$.next();
   }
 

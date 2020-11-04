@@ -132,6 +132,7 @@
               </span>
             </div>
             <div class="calendar__card-events">
+              <div class="calendar__card-colored-wrap"></div>
               <p
                 class="event-text"
                 title="Клик для удаления события"
@@ -164,6 +165,7 @@
     <div
       *ngFor="let event of draftEvents$ | async; let i = index"
       (click)="open(event)"
+      (click)="remove(event.id)"
     >
       {{ event | json }}
     </div>
