@@ -37,7 +37,7 @@
       <button
         mat-raised-button
         color="accent"
-        class="block-events__buttons"
+        class="add-event-button"
         (click)="open()"
       >
         Добавить событие
@@ -70,7 +70,7 @@
           "
           class="calendar__card"
           [ngValue]="i"
-          ><div class="flex-row-container">
+          ><div class="flex-row-container calendar__card-container">
             <div class="calendar__card-title">
               <span
                 *ngIf="
@@ -92,6 +92,7 @@
                 "
               ></span>
               <span
+                class="date-title"
                 *ngIf="
                   getBeginningDayOfMonth(
                     yearsControl.value,
@@ -185,6 +186,14 @@
           </p>
         </div>
       </div>
+      <button
+        mat-mini-fab
+        color="accent"
+        class="add-event-button-small"
+        (click)="open()"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
     </div>
   </div>
 </main>
