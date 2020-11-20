@@ -1,3 +1,4 @@
+import { ApiService } from './services/api.service';
 import {
   AfterContentChecked,
   ChangeDetectionStrategy, ChangeDetectorRef,
@@ -67,8 +68,8 @@ export class AppComponent {
 
   events$ = this.refresh$.pipe(
     startWith(true),
-    switchMap(() => this.eventsService.getData()),
-    tap(console.log)
+    switchMap(() => this.apiService.get()),
+    shareReplay(1)
   );
 
   dayInMonth$ = combineLatest([
@@ -94,7 +95,8 @@ export class AppComponent {
 
   constructor(
     private eventsService: EventsService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private apiService: ApiService
   ) { }
 
 

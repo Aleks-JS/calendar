@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './modules/material/material.module';
 import { ModalsModule } from './modules/modals/modals.module';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { ModalsModule } from './modules/modals/modals.module';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MaterialModule,
-    ModalsModule
+    ModalsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent],
