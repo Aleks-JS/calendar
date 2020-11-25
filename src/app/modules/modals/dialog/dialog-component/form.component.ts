@@ -92,8 +92,6 @@ export class DialogFormsComponent implements OnInit {
             text: this.form.value.eventDescription
         });
 
-        console.log('save');
-
         this.dialogRef.close();
     }
 
