@@ -1,4 +1,3 @@
-import { ApiService } from './services/api.service';
 import {
   AfterContentChecked,
   ChangeDetectionStrategy, ChangeDetectorRef,
@@ -11,6 +10,7 @@ import { Subject, BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import { filter, map, shareReplay, startWith, switchMap, tap } from 'rxjs/operators';
 import { EventsService } from './services/events.service';
 import { DialogService } from './modules/modals/dialog/dialog.service';
+import { ApiService } from './services/api.service';
 
 const currentDate = new Date();
 console.log(currentDate.getDay())
@@ -40,6 +40,7 @@ const dayMonth = [
   31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
 ];
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -59,6 +60,7 @@ export class AppComponent {
   currentMonth: number = this.today.getMonth();
   sDay: string;
 
+
   yearsControl = new FormControl(this.currentYear);
   monthControl = new FormControl(this.currentMonth);
   selectedDate$ = new BehaviorSubject(this.today.getDate());
@@ -68,7 +70,8 @@ export class AppComponent {
 
   events$ = this.refresh$.pipe(
     startWith(true),
-    switchMap(() => this.apiService.get()),
+    switchMap(() => this.apiService.getData()),
+    tap(console.log),
     shareReplay(1)
   );
 

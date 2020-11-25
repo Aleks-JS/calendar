@@ -7,6 +7,7 @@ import {
     MatDialogRef,
 } from '@angular/material/dialog';
 import { Component, Inject, OnInit } from '@angular/core';
+import { ApiService } from './../../../../services/api.service';
 
 const nowDate = new Date();
 const nowDateAfter = new Date(
@@ -52,11 +53,13 @@ export class DialogFormsComponent implements OnInit {
         endTime: [currentTimeEnd],
         eventDescription: ['', Validators.required],
     });
+    ApiService: any;
 
     constructor(
         private fb: FormBuilder,
         private dialogRef: MatDialogRef<DialogFormsComponent>,
         private eventsServise: EventsService,
+        private apiService: ApiService,
         @Inject(MAT_DIALOG_DATA) public data
     ) { }
 
@@ -82,6 +85,14 @@ export class DialogFormsComponent implements OnInit {
             endDate: new Date('' + this.form.value.endDate + 'T' + this.form.value.endTime + ':00'),
             text: this.form.value.eventDescription
         });
+
+        this.apiService.postData({
+            startDate: new Date('' + this.form.value.startDate + 'T' + this.form.value.startTime + ':00'),
+            endDate: new Date('' + this.form.value.endDate + 'T' + this.form.value.endTime + ':00'),
+            text: this.form.value.eventDescription
+        });
+
+        console.log('save');
 
         this.dialogRef.close();
     }
