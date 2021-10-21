@@ -107,7 +107,7 @@ export class AppComponent {
     console.log("remove " + id);
     this.apiService.removeData(id).subscribe(() => {
       this.eventsService.removeDrafts(id);
-      this.refresh$.next()
+      this.refresh$.next();
     });
   }
 
