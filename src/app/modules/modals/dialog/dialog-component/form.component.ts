@@ -90,9 +90,9 @@ export class DialogFormsComponent implements OnInit {
             startDate: new Date('' + this.form.value.startDate + 'T' + this.form.value.startTime + ':00'),
             endDate: new Date('' + this.form.value.endDate + 'T' + this.form.value.endTime + ':00'),
             text: this.form.value.eventDescription
-        });
+        }).subscribe(() => this.dialogRef.close());
 
-        this.dialogRef.close();
+        //this.dialogRef.close();
     }
 
 }

@@ -8,7 +8,8 @@ import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './modules/material/material.module';
 import { ModalsModule } from './modules/modals/modals.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { BasicAuthInterceptor } from '@services/interceptor/interceptor.service';
 
 
 @NgModule({
@@ -25,7 +26,11 @@ import { HttpClientModule } from '@angular/common/http';
     ModalsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: BasicAuthInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent],
   entryComponents: []
 })

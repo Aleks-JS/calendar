@@ -105,9 +105,10 @@ export class AppComponent {
 
   remove(id: string) {
     console.log("remove " + id);
-    this.apiService.removeData(id);
-    this.eventsService.removeDrafts(id);
-    this.refresh$.next();
+    this.apiService.removeData(id).subscribe(() => {
+      this.eventsService.removeDrafts(id);
+      this.refresh$.next()
+    });
   }
 
   setDay(i) {
