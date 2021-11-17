@@ -11,6 +11,7 @@ import { filter, map, shareReplay, startWith, switchMap, tap } from 'rxjs/operat
 import { EventsService } from './services/events.service';
 import { DialogService } from './modules/modals/dialog/dialog.service';
 import { ApiService } from './services/api.service';
+import {MetaWeatherService} from '@services/meta-weather.service';
 
 const currentDate = new Date();
 console.log(currentDate.getDay())
@@ -99,9 +100,13 @@ export class AppComponent {
   constructor(
     private eventsService: EventsService,
     private dialogService: DialogService,
-    private apiService: ApiService
-  ) { }
+    private apiService: ApiService,
+    private weather: MetaWeatherService
+  ) {}
 
+  getWeather() {
+    this.weather.getWeather().subscribe(e => console.log(e));
+  }
 
   remove(id: string) {
     console.log("remove " + id);

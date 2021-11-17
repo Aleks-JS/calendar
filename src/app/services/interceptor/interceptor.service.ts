@@ -1,18 +1,21 @@
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
+import {HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable()
 export class BasicAuthInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // add authorization header with basic auth credentials if available
-    request = request.clone({
-      setHeaders: {
-        Authorization: `Basic ${window.btoa('admin' + ':' + 'supersecret')}`
-      }
+    return next.handle(this.setRequestHeaders(request));
+  }
+
+  private setRequestHeaders(req: HttpRequest<unknown>): HttpRequest<unknown> {
+    let headers = req.headers;
+    if (!req.url.includes('weather')) {
+      headers = headers.append('Authorization', `Basic ${window.btoa('admin' + ':' + 'supersecret')}`);
+    }
+    return req.clone({
+      headers
     });
-
-
-    return next.handle(request);
   }
 }

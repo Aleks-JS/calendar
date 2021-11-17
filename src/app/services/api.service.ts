@@ -5,6 +5,7 @@ import { Observable, Subject, BehaviorSubject, of } from 'rxjs';
 import { map, reduce } from 'rxjs/operators';
 import { Event } from './../interfaces/event.interface';
 
+const baseUrl = 'http://localhost:3000';
 @Injectable({
     providedIn: 'root'
 })
@@ -16,7 +17,7 @@ export class ApiService {
 
 
     getData() {
-        return this.httpClient.get<Array<any>>('/api/all').pipe(
+        return this.httpClient.get<Array<any>>(`${baseUrl}/all`).pipe(
             map((val) => val.reduce((prev, current) => {
                 const key = `${new Date(current.startDate).getDate()}.${new Date(current.startDate).getMonth()}.${new Date(current.startDate).getFullYear()}`;
 
@@ -34,11 +35,11 @@ export class ApiService {
     postData(event: Event) {
 
         const body = { startDate: event.startDate, endDate: event.endDate, text: event.text }
-        return this.httpClient.post('/api/events', body)
+        return this.httpClient.post(`${baseUrl}/events`, body)
     }
 
     removeData(id: string) {
         console.log('delete', id)
-        return this.httpClient.delete(`/api/${id}`)
+        return this.httpClient.delete(`${baseUrl}/${id}`)
     }
 }
