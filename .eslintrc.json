@@ -1,0 +1,137 @@
+{
+	"root": true,
+	"ignorePatterns": [
+	  	"projects/**/*"
+	],
+	"overrides": [
+	 	{
+			"files": [
+				"*.ts"
+			],
+			"plugins": [
+				"sonarjs"
+			],
+			"parserOptions": {
+		  		"project": [
+					"tsconfig.json",
+					"e2e/tsconfig.json"
+				],
+		  		"createDefaultProgram": true
+			},
+			"extends": [
+				"plugin:@angular-eslint/ng-cli-compat",
+				"plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
+				"plugin:@angular-eslint/template/process-inline-templates",
+				"plugin:sonarjs/recommended"
+			],
+			"rules": {
+				"@typescript-eslint/consistent-type-definitions": "error",
+				"@typescript-eslint/dot-notation": "error",
+				"@typescript-eslint/explicit-member-accessibility": [
+					"off",
+					{
+						"accessibility": "explicit"
+					}
+				],
+				"@typescript-eslint/member-ordering": [
+					"warn",
+					{
+						"default": [
+							"static-field",
+							"static-method",
+							"private-field",
+							"protected-field",
+							"public-field",
+							"constructor",
+							"public-method",
+							"protected-method",
+							"private-method"
+						]
+					}
+				],
+				"@typescript-eslint/no-use-before-define": "error",
+				"brace-style": ["error", "1tbs", { "allowSingleLine": false }],
+				"id-blacklist": "off",
+				"id-match": "off",
+				"no-trailing-spaces": "off",
+				"no-underscore-dangle": "off",
+				"max-len": ["error", { "code": 140 }],
+				"arrow-body-style": ["error", "as-needed"],
+				"semi": ["error", "always", { "omitLastInOneLineBlock": true}],
+				"func-style": ["error", "declaration", { "allowArrowFunctions": true }],
+				"sonarjs/cognitive-complexity": ["warn"],
+				"sonarjs/no-duplicate-string": ["error", 2],
+				"sonarjs/no-small-switch": ["warn"],
+				"indent": "off",
+				"@typescript-eslint/indent": ["error", "tab", {
+					"SwitchCase": 1,
+					"MemberExpression": 1,
+					"ignoredNodes": ["Literal"]
+					}],
+				"@angular-eslint/no-input-rename": "off",
+				"no-unused-vars": ["error", { "argsIgnorePattern": "^_$" }],
+				"no-console": ["error", { "allow": ["error"] }],
+				"no-alert": ["error"],
+				"no-debugger": ["error"],
+				"@typescript-eslint/no-explicit-any": ["error"],
+				"@angular-eslint/no-output-on-prefix": ["warn"],
+				"@angular-eslint/component-selector": "off",
+				"@angular-eslint/directive-selector": "off",
+				"@angular-eslint/no-host-metadata-property": "off",
+				"comma-dangle": ["error", "never"],
+				"comma-style": ["error", "last"],
+				"operator-linebreak": ["error", "after", { 
+					"overrides": {
+						"?": "before",
+						":": "before",
+						"&": "before",
+						"&&": "before",
+						"|": "before",
+						"||": "before"
+					} 
+				}],
+				"array-element-newline": ["error", "consistent"],
+				"@typescript-eslint/naming-convention": [
+					"error",
+					{ "selector": [
+						"classProperty",
+						"classMethod",
+						"accessor",
+						"parameterProperty"
+						],
+						"modifiers": ["private"],
+						"format": ["camelCase"],
+						"leadingUnderscore": "allow"
+					},
+					{ "selector": [
+						"classProperty",
+						"classMethod",
+						"accessor",
+						"parameterProperty"
+						],
+						"modifiers": ["protected"],
+						"format": ["camelCase"],
+						"leadingUnderscore": "allow"
+					},
+					{ "selector": "parameter", "format": ["camelCase"], "leadingUnderscore": "allow"},
+					{ "selector": "variable", "format": ["camelCase", "UPPER_CASE"], "leadingUnderscore": "allow"},
+					{ "selector": "default", "format": ["camelCase"] },
+					{ "selector": "typeLike", "format": ["PascalCase"] },
+					{ "selector": "enumMember", "format": ["camelCase", "UPPER_CASE"] }
+				],
+				"no-multi-spaces": ["error"],
+				"array-bracket-spacing": ["error", "never"]
+			}
+	  	},
+		{
+			"files": [
+				"*.html"
+			],
+			"extends": [
+				"plugin:@angular-eslint/template/recommended"
+			],
+			"rules": {}
+		}
+	]
+}
+  

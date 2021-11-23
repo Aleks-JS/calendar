@@ -1,18 +1,20 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule } from './material.module';
-import { ModalComponent } from './modal/modal.component';
+import { MaterialModule } from './modules/material/material.module';
+import { ModalsModule } from './modules/modals/modals.module';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { BasicAuthInterceptor } from '@services/interceptor/interceptor.service';
+
 
 @NgModule({
   declarations: [
-    AppComponent,
-    ModalComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -20,10 +22,17 @@ import { ModalComponent } from './modal/modal.component';
     AppRoutingModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
+    ModalsModule,
+    HttpClientModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: BasicAuthInterceptor,
+    multi: true
+  }],
+  bootstrap: [AppComponent],
+  entryComponents: []
 })
 export class AppModule {
 }

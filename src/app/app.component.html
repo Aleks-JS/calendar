@@ -1,31 +1,212 @@
-<select [formControl]="yearsControl">
-  <option *ngFor="let year of allYears" [value]="year">
-    {{ year }}
-  </option>
-</select>
+<header>
+  <div class="header-container flex-row-container">
+    <mat-toolbar color="primary">
+      <div class="mat-title header__title">Календарь</div>
+      <div class="select-container">
+        <div>
+          <select [formControl]="yearsControl">
+            <option *ngFor="let year of allYears" [ngValue]="year">
+              {{ year }}
+            </option>
+          </select>
+        </div>
+        <div>
+          <button mat-raised-button (click)="prevMonth()">-</button>
+        </div>
+        <div>
+          <select [formControl]="monthControl">
+            <option *ngFor="let month of allMonth; let i = index" [ngValue]="i">
+              {{ allMonth[i][0] }}
+            </option>
+          </select>
+        </div>
+        <div>
+          <button mat-raised-button (click)="nextMonth()">+</button>
+        </div>
+      </div>
+      <!-- <div class="mat-body-1">
+          <div>Мы выбрали год: {{ yearsControl.value }}</div>
 
-<div class="month">
-  <button (click)="prevMonth()">Back</button>
-  <select [formControl]="monthControl">
-    <option
-      *ngFor="let month of allMonth; let i = index"
-      [ngValue]="month"
-      #month
-    >
-      {{ month }}
-    </option>
-  </select>
-  <button (click)="nextMonth()">Forward</button>
-</div>
+          <div>Мы выбрали месяц: {{ allMonth[monthControl.value][0] }}</div>
 
-Мы выбрали год: {{ currentYear$ | async }}
-
-Мы выбрали месяц: {{ currentMonth$ | async }}
-
-Мы выбрали день: {{ currentDay$ | async }}
-
-<div class="calendar">
-  <div *ngFor="let day of dayInMonth$ | async" (click)="setDay(day)" [class.there-is-an-event]="currentDay$.value === day">
-    {{ day }}
+          <div>Мы выбрали день: {{ selectedDate$ | async }}</div>
+        </div> -->
+      <span class="title-date"
+        >{{ allMonth[monthControl.value][0] }} {{ yearsControl.value }}</span
+      >
+      <button
+        mat-raised-button
+        color="accent"
+        class="add-event-button"
+        (click)="getWeather()"
+      >
+        ПОГОДА
+      </button>
+      <button
+        mat-raised-button
+        color="accent"
+        class="add-event-button"
+        (click)="open()"
+      >
+        Добавить событие
+      </button>
+    </mat-toolbar>
   </div>
-</div>
+</header>
+
+<main>
+  <div class="left__main-block">
+    <div class="flex-column-container calendar-title">
+      <mat-grid-list cols="7" rows="1" rowHeight="30px">
+        <mat-grid-tile
+          *ngFor="let day of allDays; let i = index"
+          [ngValue]="i"
+          >{{ day }}</mat-grid-tile
+        >
+      </mat-grid-list>
+    </div>
+    <div class="flex-column-container calendar-main">
+      <mat-grid-list class="calendar" cols="7" rowHeight="fit">
+        <mat-grid-tile
+          *ngFor="let day of dayInMonth$ | async; let i = index"
+          (click)="
+            setDay(
+              i +
+                1 -
+                getBeginningDayOfMonth(yearsControl.value, monthControl.value)
+            )
+          "
+          class="calendar__card"
+        >
+          <div class="flex-row-container calendar__card-container">
+            <div class="calendar__card-title">
+              <span
+                *ngIf="
+                  i >
+                  dayInMonth[monthControl.value] +
+                    getBeginningDayOfMonth(
+                      yearsControl.value,
+                      monthControl.value
+                    ) -
+                    1
+                "
+              ></span>
+              <span
+                *ngIf="
+                  getBeginningDayOfMonth(
+                    yearsControl.value,
+                    monthControl.value
+                  ) > i
+                "
+              ></span>
+              <span
+                class="date-title"
+                *ngIf="
+                  getBeginningDayOfMonth(
+                    yearsControl.value,
+                    monthControl.value
+                  ) <= i &&
+                  i <
+                    dayInMonth[monthControl.value] +
+                      getBeginningDayOfMonth(
+                        yearsControl.value,
+                        monthControl.value
+                      )
+                "
+              >
+                <h3
+                  class="mat-h3"
+                  [title]="
+                    i +
+                    1 -
+                    getBeginningDayOfMonth(
+                      yearsControl.value,
+                      monthControl.value
+                    ) +
+                    ' ' +
+                    allMonth[monthControl.value][1] +
+                    ' ' +
+                    yearsControl.value +
+                    ' год'
+                  "
+                >
+                  {{
+                    i +
+                      1 -
+                      getBeginningDayOfMonth(
+                        yearsControl.value,
+                        monthControl.value
+                      )
+                  }}
+                </h3>
+              </span>
+            </div>
+            <div
+              class="calendar__card-events"
+              *ngIf="events$ | async as listOfEvents"
+            >
+              <div class="calendar__card-colored-wrap"></div>
+              <p
+                class="event-text"
+                title="Клик для удаления события"
+                (click)="remove(event.id)"
+                *ngFor="
+                  let event of listOfEvents[
+                    '' +
+                      (i +
+                        1 -
+                        getBeginningDayOfMonth(
+                          yearsControl.value,
+                          monthControl.value
+                        )) +
+                      '.' +
+                      monthControl.value +
+                      '.' +
+                      yearsControl.value
+                  ]
+                "
+              >
+                {{ event.text }}
+              </p>
+            </div>
+          </div>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+  </div>
+  <div class="right__main-block">
+    <div class="flex-column-container">
+      <div class="mini-calendar"></div>
+      <div class="draft__events-wrapper">
+        <div
+          class="draft__events"
+          *ngFor="let event of draftEvents$ | async; let i = index"
+          (click)="open(event)"
+          (click)="remove(event.id)"
+        >
+          Вы забыли сохранить:
+          <h4 class="mat-body-1"></h4>
+          <p class="draft__events-text">
+            {{ i + 1 }}.{{ event.eventDescription
+            }}<mat-icon
+              (click)="remove(event.id)"
+              color="primary"
+              aria-hidden="false"
+              aria-label="delete icon"
+            >
+              delete_forever</mat-icon
+            >
+          </p>
+        </div>
+      </div>
+      <button
+        mat-mini-fab
+        color="accent"
+        class="add-event-button-small"
+        (click)="open()"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </div>
+</main>

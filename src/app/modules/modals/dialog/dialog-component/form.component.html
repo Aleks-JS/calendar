@@ -1,0 +1,39 @@
+<h2 mat-dialog-title>Добавление события</h2>
+<mat-dialog-content [formGroup]="form">
+  <div class="forms-container">
+    <span>Дата начала события</span>
+    <mat-form-field class="input-margin" appearance="fill">
+      <label for="start-event"></label>
+      <mat-label>Выберите дату</mat-label>
+      <input matInput class="input__start-event" type="date" formControlName="startDate" />
+    </mat-form-field>
+    <mat-form-field class="input-margin" appearance="fill">
+      <mat-label>Введите время</mat-label>
+      <input matInput class="input__start-event" type="time" formControlName="startTime" />
+    </mat-form-field>
+  </div>
+  <div class="forms-container">
+    <span>Дата окончания события</span>
+    <mat-form-field class="input-margin" appearance="fill">
+      <label for="start-event"></label>
+      <mat-label>Введите дату</mat-label>
+      <input matInput class="input__start-event" type="date" formControlName="endDate" />
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Введите время</mat-label>
+      <input matInput class="input__start-event" type="time" formControlName="endTime" />
+    </mat-form-field>
+  </div>
+  <mat-form-field class="input-container" appearance="fill">
+    <mat-label>Описание события</mat-label>
+    <textarea matInput formControlName="eventDescription"></textarea>
+    <mat-error *ngIf="form.get('eventDescription').invalid">Ошибка</mat-error>
+  </mat-form-field>
+</mat-dialog-content>
+<div class="forms-container">
+  <div mat-dialog-actions>
+    <button class="mat-raised-button" (click)="close()">Close</button>
+    <button mat-button (click)="save()">Submit</button>
+  </div>
+</div>
+<!-- <div class="forms-container">{{ form.value | json }}</div> -->

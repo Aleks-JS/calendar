@@ -1,26 +1,20 @@
-import { MatDialogModule } from '@angular/material';
-/* tslint:disable:radix */
 import {
   AfterContentChecked,
-  ChangeDetectionStrategy,
+  ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
   DoCheck,
   OnInit
 } from '@angular/core';
-<<<<<<< HEAD
 import { FormControl } from '@angular/forms';
 import { Subject, BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import { filter, map, shareReplay, startWith, switchMap, tap } from 'rxjs/operators';
-=======
-import {FormControl} from '@angular/forms';
-import {Subject, BehaviorSubject, Observable} from 'rxjs';
-import {filter, map, combineLatest} from 'rxjs/operators';
->>>>>>> parent of d83014f... Lesson 3. Changing the method of generating days by months. A service for obtaining data on Events has been implemented. Implemented a method for deleting an event when you click on it
-import { EventsService } from './events.service';
-import { Events } from './events';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { EventsService } from './services/events.service';
+import { DialogService } from './modules/modals/dialog/dialog.service';
+import { ApiService } from './services/api.service';
+import {MetaWeatherService} from '@services/meta-weather.service';
 
 const currentDate = new Date();
+console.log(currentDate.getDay())
 const years = [];
 
 for (let index = 1970; index < 2030; index++) {
@@ -35,154 +29,113 @@ for (let index = 1970; index < 2030; index++) {
 // ];
 
 const months = [
-  'январь', 'февраль', 'март',
-  'апрель', 'май', 'июнь',
-  'июль', 'август', 'сентябрь',
-  'октябрь', 'ноябрь', 'декабрь'
+  ['январь', 'января'], ['февраль', 'февраля'], ['март', 'марта'],
+  ['апрель', 'апреля'], ['май', 'мая'], ['июнь', 'июня'],
+  ['июль', 'июля'], ['август', 'августа'], ['сентябрь', 'сентября'],
+  ['октябрь', 'октября'], ['ноябрь', 'ноября'], ['декабрь', 'декабря']
 ];
-//
-// type Event = {
-//   id: string;
-//   startDate: Date;
-//   endDate: Date
-//   text: string;
-// };
 
-// Массив событий на 14 октября 2020 в разное время
-// доп задание: сделать сервис(для получение списка эвентов )
-// const events: Array<Event> = [
-//   {
-//     id: "1",
-//     startDate: new Date(1602644400000), // 5-7
-//     endDate: new Date(1602651600000),
-//     text: 'Выкинуть мусор'
-//   },
-//   {
-//     id: "2",
-//     startDate: new Date(1602676800000), // 14-15
-//     endDate: new Date(1602680400000),
-//     text: 'Посмотреть телевизор'
-//   },
-//   {
-//     id: "3",
-//     startDate: new Date(1602698400000), // 20-22
-//     endDate: new Date(1602705600000),
-//     text: 'Послушать подкаст'
-//   }
-// ]
+const daysOfTheWeek = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+
+const dayMonth = [
+  31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
+];
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  providers: [EventsService],
+  providers: [],
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AppComponent implements OnInit, AfterContentChecked, DoCheck {
+export class AppComponent {
 
+  dayInMonth = dayMonth;
   allYears = years;
   allMonth = months;
+  allDays = daysOfTheWeek;
   today = currentDate;
+  currentDayOfTheWeek = this.today.getDay();
   currentYear: number = this.today.getFullYear();
-  currentMonth: string = this.today.toLocaleString('ru', {
-    month: 'long'
-  });
+  currentMonth: number = this.today.getMonth();
   sDay: string;
+
 
   yearsControl = new FormControl(this.currentYear);
   monthControl = new FormControl(this.currentMonth);
+  selectedDate$ = new BehaviorSubject(this.today.getDate());
+  refresh$ = new Subject();
 
-  events: Events[] = [];
+  draftEvents$ = this.eventsService.getDrafts();
 
-  constructor(private eventsService: EventsService) { }
+  events$ = this.refresh$.pipe(
+    startWith(true),
+    switchMap(() => this.apiService.getData()),
+    tap(console.log),
+    shareReplay(1)
+  );
 
-  ngOnInit() {
-    this.events = this.eventsService.getData();
-    this.yearsControl.valueChanges.subscribe(value => this.currentYear$.next(value));
-    this.monthControl.valueChanges.subscribe(value => this.currentMonth$.next(value));
-    this.selectedDate$.subscribe(value => this.sDay = value.toDateString());
-    console.log(this.selectedDate$.value);
-    console.log(this.allMonth.indexOf(this.monthControl.value));
-    console.log(this.events);
-  }
-
-  ngDoCheck(): void {
-  }
-
-  ngAfterContentChecked(): void {
-    this.currentDay$.subscribe(value => this.selectedDate$.next(
-      new Date(this.currentYear$.value,
-        this.allMonth.indexOf(this.monthControl.value),
-        value)));
-    console.log(this.events.some(value =>
-      value.startDate.toDateString() === this.sDay));
-  }
-
-  currentYear$ = new BehaviorSubject(this.yearsControl.value);
-  currentMonth$ = new BehaviorSubject(this.monthControl.value);
-  currentDay$ = new BehaviorSubject(new Date().getDate());
-  selectedDate$ = new BehaviorSubject(this.today);
-  // currentYear$: Observable<number> = this.yearsControl.valueChanges.pipe(
-  //   filter((value) => parseInt(value).toString() == value),
-  //   map((value) => parseInt(value))
-  // );
-
-  // currentMonth$ = this.monthControl.valueChanges.pipe(
-  //   // filter((value) => value)
-  // );
-
-
-
-  // Сделать так чтобы при выборе месяца и года показывалось правильное число дней
-  // Подсказка: смотри combineLatest
-
-  // dayInMonth$ = this.currentYear$.pipe(
-  //   map((value) => {
-  //     if (value % 2 == 0) {
-  //       console.log(Array(15).fill(0).map((_, index) => index + 1));
-  //       return Array(15).fill(0).map((_, index) => index + 1)
-  //     }
-  //     return Array(31).fill(0).map((_, index) => index + 1)
-  //   })
-  // );
-
-  dayInMonth$ = this.currentMonth$.pipe(
-    map((value) => {
-      // Определяем количество дней в месяца
-      return Array(new Date(this.yearsControl.value,
-        this.allMonth.indexOf(this.monthControl.value) + 1,
-        0).getDate()).fill(0).map((_, index) => index + 1);
+  dayInMonth$ = combineLatest([
+    this.yearsControl.valueChanges.pipe(
+      startWith(this.currentYear),
+    ),
+    this.monthControl.valueChanges.pipe(
+      startWith(this.currentMonth)
+    )
+  ]).pipe(
+    startWith([this.currentYear, this.currentMonth]),
+    map(([year, month]) => {
+      const days = this.getBeginningDayOfMonth(year, month) + ((7 - (dayMonth[month] + this.getBeginningDayOfMonth(year, month)) % 7))
+      if (year % 4 !== 0) {
+        return Array(dayMonth[month] + days).fill(true);
+      }
+      if (month === 1) {
+        return Array(29 + days).fill(true);
+      }
+      return Array(dayMonth[month] + days).fill(true);
     })
   );
 
-  // Сделать список месяцев
-  setDay(day: number) {
-    this.currentDay$.next(day);
+  constructor(
+    private eventsService: EventsService,
+    private dialogService: DialogService,
+    private apiService: ApiService,
+    private weather: MetaWeatherService
+  ) {}
+
+  getWeather() {
+    this.weather.getWeather().subscribe(e => console.log(e));
   }
 
-  getSelectedDate(day: number) {
-
+  remove(id: string) {
+    console.log("remove " + id);
+    this.apiService.removeData(id).subscribe(() => {
+      this.eventsService.removeDrafts(id);
+      this.refresh$.next();
+    });
   }
 
-  // Меняет на предыдущий месяц
+  setDay(i) {
+    this.selectedDate$.next(i);
+  }
+
   prevMonth() {
-    if (this.monthControl.value === this.allMonth[0]) {
-      this.monthControl.setValue(this.allMonth[this.allMonth.length - 1]);
+    if (this.monthControl.value === 0) {
+      this.monthControl.setValue(11);
       this.prevYear();
     } else {
-      this.monthControl.setValue(this.allMonth
-        [this.allMonth.indexOf(this.monthControl.value) - 1]);
+      this.monthControl.setValue(this.monthControl.value - 1);
     }
   }
 
   // Меняет на след месяц
   nextMonth() {
-    if (this.monthControl.value === this.allMonth[this.allMonth.length - 1]) {
-      this.monthControl.setValue(this.allMonth[0]);
+    if (this.monthControl.value === 11) {
+      this.monthControl.setValue(0);
       this.nextYear();
     } else {
-      this.monthControl.setValue(this.allMonth
-        [this.allMonth.indexOf(this.monthControl.value) + 1]);
+      this.monthControl.setValue(this.monthControl.value + 1);
     }
   }
 
@@ -193,5 +146,18 @@ export class AppComponent implements OnInit, AfterContentChecked, DoCheck {
 
   nextYear() {
     this.yearsControl.setValue(this.yearsControl.value + 1);
+  }
+
+  open(data = {}) {
+    this.dialogService.open(data).subscribe(() => {
+      this.refresh$.next()
+    })
+  }
+
+  getBeginningDayOfMonth(year, month) {
+    if (new Date(`${year}-${month + 1}-1`).getDay() === 0) {
+      return 6
+    };
+    return new Date(`${year}-${month + 1}-1`).getDay() - 1;
   }
 }
