@@ -1,3 +1,4 @@
+/* tslint:disable:radix */
 import {
   AfterContentChecked,
   ChangeDetectionStrategy, ChangeDetectorRef,
@@ -11,7 +12,7 @@ import { filter, map, shareReplay, startWith, switchMap, tap } from 'rxjs/operat
 import { EventsService } from './services/events.service';
 import { DialogService } from './modules/modals/dialog/dialog.service';
 import { ApiService } from './services/api.service';
-import {MetaWeatherService} from '@services/meta-weather.service';
+import { MetaWeatherService } from '@services/meta-weather.service';
 
 const currentDate = new Date();
 console.log(currentDate.getDay())
