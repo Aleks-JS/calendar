@@ -1,4 +1,4 @@
-import { EventsService } from '@services/events.service';
+import { EventsService } from '../../../../services/events.service';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import {
     MAT_DIALOG_DATA,
@@ -7,7 +7,7 @@ import {
     MatDialogRef,
 } from '@angular/material/dialog';
 import { Component, Inject, OnInit } from '@angular/core';
-import { ApiService } from './../../../../services/api.service';
+import { ApiService } from '../../../../services/api.service';
 
 const nowDate = new Date();
 const nowDateAfter = new Date(
@@ -60,11 +60,12 @@ export class DialogFormsComponent implements OnInit {
         private dialogRef: MatDialogRef<DialogFormsComponent>,
         private eventsServise: EventsService,
         private apiService: ApiService,
-        @Inject(MAT_DIALOG_DATA) public data
+        @Inject(MAT_DIALOG_DATA) public data: any
     ) { }
 
     ngOnInit(): void {
         this.form.patchValue(this.data)
+        this.form.get('eventDescription')?.invalid
     }
 
 

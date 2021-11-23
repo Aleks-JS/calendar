@@ -40,7 +40,7 @@ export class ApiService {
     return this.httpClient.post(`${Routes.baseUrl}/events`, body);
   }
 
-  removeData(id: string) {
+  removeData(id: string | undefined) {
     console.log('delete', id);
     return this.httpClient.delete(`${Routes.baseUrl}/${id}`);
   }

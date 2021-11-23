@@ -1,5 +1,5 @@
 import { Event } from '../interfaces/event.interface';
-import { BehaviorSubject, of } from "rxjs";
+import {BehaviorSubject, Observable, of} from "rxjs";
 import { map, tap } from "rxjs/operators";
 import { Injectable } from '@angular/core';
 
@@ -36,19 +36,22 @@ export class EventsService {
 
   data$ = new BehaviorSubject(this.data)
 
-  obsData$ = this.data$.asObservable().pipe(
+  obsData$: Observable<{}> = this.data$.asObservable().pipe(
     map((val) => val.reduce((prev, current) => {
       const key = `${current.startDate.getDate()}.${current.startDate.getMonth()}.${current.startDate.getFullYear()}`;
+      // @ts-ignore
       if (!prev[key]) {
+        // @ts-ignore
         prev[key] = [current];
       } else {
+        // @ts-ignore
         prev[key].push(current);
       }
       return prev;
     }, {}))
   );
 
-  draft$ = new BehaviorSubject([])
+  draft$ = new BehaviorSubject<Event[]>([])
 
   draftObs$ = this.draft$.asObservable()
 
@@ -71,11 +74,13 @@ export class EventsService {
     return this.draftObs$
   }
 
-  addDrafts(draft) {
+  addDrafts(draft: any) {
+    // @ts-ignore
     this.draft$.next([...this.draft$.value, { ...draft, id: `${this.draft$.value.length + 1}` }])
   }
 
-  removeDrafts(id: string) {
+  removeDrafts(id: string | undefined) {
+    // @ts-ignore
     this.draft$.next(this.draft$.value.filter(e => e.id !== id))
   }
 

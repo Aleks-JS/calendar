@@ -58,11 +58,9 @@
   <div class="left__main-block">
     <div class="flex-column-container calendar-title">
       <mat-grid-list cols="7" rows="1" rowHeight="30px">
-        <mat-grid-tile
-          *ngFor="let day of allDays; let i = index"
-          [ngValue]="i"
-          >{{ day }}</mat-grid-tile
-        >
+        <mat-grid-tile *ngFor="let day of allDays; let i = index">{{
+          day
+        }}</mat-grid-tile>
       </mat-grid-list>
     </div>
     <div class="flex-column-container calendar-main">
@@ -187,7 +185,7 @@
           Вы забыли сохранить:
           <h4 class="mat-body-1"></h4>
           <p class="draft__events-text">
-            {{ i + 1 }}.{{ event.eventDescription
+            {{ i + 1 }}.{{ event.text
             }}<mat-icon
               (click)="remove(event.id)"
               color="primary"

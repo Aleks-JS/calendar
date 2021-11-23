@@ -12,11 +12,11 @@ import { filter, map, shareReplay, startWith, switchMap, tap } from 'rxjs/operat
 import { EventsService } from './services/events.service';
 import { DialogService } from './modules/modals/dialog/dialog.service';
 import { ApiService } from './services/api.service';
-import { MetaWeatherService } from '@services/meta-weather.service';
+import { MetaWeatherService } from "./services/meta-weather.service";
 
 const currentDate = new Date();
 console.log(currentDate.getDay())
-const years = [];
+const years: number[] = [];
 
 for (let index = 1970; index < 2030; index++) {
   years.push(index);
@@ -60,7 +60,7 @@ export class AppComponent {
   currentDayOfTheWeek = this.today.getDay();
   currentYear: number = this.today.getFullYear();
   currentMonth: number = this.today.getMonth();
-  sDay: string;
+  sDay: string | undefined;
 
 
   yearsControl = new FormControl(this.currentYear);
@@ -109,15 +109,15 @@ export class AppComponent {
     this.weather.getWeather().subscribe(e => console.log(e));
   }
 
-  remove(id: string) {
+  remove(id: string | undefined) {
     console.log("remove " + id);
     this.apiService.removeData(id).subscribe(() => {
       this.eventsService.removeDrafts(id);
-      this.refresh$.next();
+      this.refresh$.next(null);
     });
   }
 
-  setDay(i) {
+  setDay(i: number) {
     this.selectedDate$.next(i);
   }
 
@@ -151,11 +151,11 @@ export class AppComponent {
 
   open(data = {}) {
     this.dialogService.open(data).subscribe(() => {
-      this.refresh$.next()
+      this.refresh$.next(null)
     })
   }
 
-  getBeginningDayOfMonth(year, month) {
+  getBeginningDayOfMonth(year: any, month: number) {
     if (new Date(`${year}-${month + 1}-1`).getDay() === 0) {
       return 6
     };
