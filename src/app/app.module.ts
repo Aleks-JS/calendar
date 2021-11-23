@@ -14,7 +14,7 @@ import { BasicAuthInterceptor } from '@services/interceptor/interceptor.service'
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
