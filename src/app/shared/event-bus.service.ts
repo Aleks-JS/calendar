@@ -8,18 +8,18 @@ import { DestroyService } from '@services/destroy.service';
   providedIn: 'root'
 })
 export class EventBusService extends DestroyService {
-  private subject$ = new Subject<EventBus>();
+  private _subject$ = new Subject<EventBus>();
 
   constructor() {
     super();
   }
 
   emit(event: EventBus): void {
-    this.subject$.next(event);
+    this._subject$.next(event);
   }
 
   on(eventName: string, action: () => void): Subscription {
-    return this.subject$.pipe(
+    return this._subject$.pipe(
       filter((e: EventBus) => e.name === eventName),
       map((e: EventBus) => e.value),
       takeUntil(this)
