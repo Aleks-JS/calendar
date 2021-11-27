@@ -25,7 +25,7 @@
   <mat-form-field class="input-container" appearance="fill">
     <mat-label>Описание события</mat-label>
     <textarea matInput formControlName="eventDescription"></textarea>
-    <mat-error *ngIf="form.get('eventDescription').invalid">Ошибка</mat-error>
+    <mat-error *ngIf="form.get('eventDescription')!.invalid">Ошибка</mat-error>
   </mat-form-field>
 </mat-dialog-content>
 <div class="forms-container">
