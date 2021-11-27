@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Routes } from '../../config/routes';
 import { Observable } from 'rxjs';
-import { auth } from "./auth";
+import { auth } from './auth';
 import IRefreshTokens = auth.IRefreshTokens;
 
 const httpOptions = {
