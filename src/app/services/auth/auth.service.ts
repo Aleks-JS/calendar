@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Routes } from '../../config/routes';
 import { Observable } from 'rxjs';
-import { auth } from '@services/auth/auth';
+import { auth } from "./auth";
 import IRefreshTokens = auth.IRefreshTokens;
 
 const httpOptions = {
@@ -12,6 +12,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
+
 export class AuthService {
   public static readonly authPath = '/auth';
   public static readonly loginPath = '/login';
